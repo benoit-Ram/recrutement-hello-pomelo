@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Candidature Hello Pomelo</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:    #FF3285;
+      --blue:    #0000EA;
+      --navy:    #05056D;
+      --lavender:#CFD0E5;
+      --lilac:   #8F8FBC;
+      --skyblue: #5BB6F4;
+      --white:   #FFFFFF;
+      --offwhite:#F8F7FC;
+      --text:    #05056D;
+      --muted:   #6B6B9A;
+    }
+
+    body {
+      font-family: 'Quicksand', 'Trebuchet MS', 'Segoe UI', Arial, sans-serif;
+      background: var(--offwhite);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 44px 48px;
+      max-width: 760px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(5,5,109,0.10);
+    }
+    @media (max-width: 580px) { .card { padding: 28px 20px; } }
+
+    .logo-bar { margin-bottom: 32px; }
+
+    h1 {
+      font-weight: 700;
+      font-size: 1.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .subtitle {
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
+    .divider {
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--blue), var(--skyblue));
+      border-radius: 99px;
+      margin: 28px 0;
+    }
+    .progress-wrap { background: var(--lavender); border-radius: 99px; height: 7px; margin-bottom: 8px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--pink), var(--blue)); border-radius: 99px; transition: width 0.4s ease; }
+    .progress-meta { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--muted); margin-bottom: 24px; font-weight: 500; }
+
+    .section-title {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--pink);
+      margin: 28px 0 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--lavender); }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 12px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink), #C0006E);
+      color: var(--white);
+      width: 100%;
+      margin-top: 12px;
+      box-shadow: 0 4px 16px rgba(255,50,133,0.3);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,50,133,0.4); }
+    .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
+    .btn-secondary { background: transparent; border: 2px solid var(--navy); color: var(--navy); width: 100%; margin-top: 10px; }
+    .btn-secondary:hover { background: var(--navy); color: white; }
+    .btn-back {
+      background: transparent; border: 2px solid var(--lavender); color: var(--muted);
+      padding: 14px 20px; font-size: 0.9rem; border-radius: 12px; white-space: nowrap;
+      flex-shrink: 0; font-family: 'Quicksand', sans-serif; font-weight: 700; cursor: pointer;
+      transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .btn-back:hover { border-color: var(--pink); color: var(--pink); background: #FFF0F6; }
+    .btn-pdf {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      color: var(--white); width: 100%; margin-top: 10px;
+      box-shadow: 0 4px 16px rgba(5,5,109,0.25);
+    }
+    .btn-pdf:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(5,5,109,0.35); }
+    .hidden { display: none; }
+
+    /* Forms */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-field { display: flex; flex-direction: column; gap: 5px; }
+    .form-field.full { grid-column: 1 / -1; }
+    .form-field label { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .form-field label .req { color: var(--pink); }
+    .form-field input, .form-field select, .form-field textarea {
+      border: 1.5px solid var(--lavender); border-radius: 10px; padding: 10px 14px;
+      font-family: 'Quicksand', sans-serif; font-size: 0.9rem; color: var(--navy);
+      background: var(--offwhite); outline: none; transition: border-color 0.2s; width: 100%;
+    }
+    .form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--pink); background: white; }
+    .form-field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+    .form-field input::placeholder, .form-field textarea::placeholder { color: var(--lavender); }
+    .btn-add-formation { background: none; border: 1.5px dashed var(--pink); color: var(--pink); border-radius: 10px; padding: 9px 18px; font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; margin-bottom: 16px; transition: background 0.15s; }
+    .btn-add-formation:hover { background: #FFF0F6; }
+    .formation-extra { border-top: 1.5px solid var(--lavender); margin-top: 4px; padding-top: 12px; }
+    .formation-extra-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .formation-extra-header span { font-size: 0.78rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.06em; }
+    .btn-remove-formation { background: none; border: none; color: var(--muted); font-size: 0.78rem; cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+    .btn-remove-formation:hover { color: var(--pink); background: #FFF0F6; }
+
+    /* Question blocks */
+    .question-block { margin-bottom: 24px; }
+    .question-text { font-size: 0.95rem; color: var(--navy); margin-bottom: 10px; line-height: 1.55; font-weight: 500; }
+    .question-num { color: var(--pink); font-weight: 700; margin-right: 6px; }
+
+    /* Energy buttons */
+    .scale-hint {
+      background: var(--offwhite); border-radius: 8px; padding: 10px 16px;
+      font-size: 0.8rem; color: var(--muted); margin-bottom: 24px;
+      display: flex; justify-content: space-between; font-weight: 600;
+      border-left: 3px solid var(--pink);
+    }
+    .energy-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .energy-btn {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      flex: 1; min-width: 60px; max-width: 90px; padding: 8px 4px;
+      border: 2px solid var(--lavender); border-radius: 12px; background: white;
+      cursor: pointer; transition: all 0.15s ease; font-family: 'Quicksand', sans-serif;
+      font-size: 0.78rem; color: #555; text-align: center; line-height: 1.3;
+    }
+    .energy-btn:hover { border-color: var(--pink); background: #FFF5F9; transform: translateY(-2px); }
+    .energy-btn.selected { border-color: var(--pink); background: var(--pink); color: white; font-weight: 700; box-shadow: 0 4px 12px rgba(255,50,133,0.3); }
+    .energy-emoji { font-size: 1.5rem; margin-bottom: 2px; }
+    .energy-label { font-size: 0.65rem; }
+
+    /* Results */
+    .results-table {
+      width: 100%; border-collapse: separate; border-spacing: 0;
+      margin-bottom: 28px; font-size: 0.88rem; border-radius: 12px;
+      overflow: hidden; box-shadow: 0 2px 16px rgba(5,5,109,0.08);
+    }
+    .results-table td { padding: 11px 14px; border-bottom: 1px solid var(--lavender); }
+    .results-table tr:last-child td { border-bottom: none; }
+    .mini-bar-wrap { background: var(--lavender); border-radius: 99px; height: 8px; overflow: hidden; }
+    .mini-bar { height: 100%; border-radius: 99px; }
+
+    .insight-block { background: var(--offwhite); border-radius: 12px; padding: 18px 20px; margin-bottom: 10px; border-left: 4px solid; transition: transform 0.15s; }
+    .insight-block:hover { transform: translateX(3px); }
+    .insight-block h3 { font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 5px; }
+    .insight-block p { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+
+    .roles-wrap { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .role-chip { background: var(--offwhite); border: 1.5px solid var(--lavender); border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; color: var(--navy); font-weight: 600; }
+
+    .answers-detail-wrap { margin-top: 8px; }
+    .answers-group { margin-bottom: 14px; break-inside: avoid; page-break-inside: avoid; }
+    .answers-group-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 6px 12px; border-radius: 6px 6px 0 0; color: white; display: flex; justify-content: space-between; align-items: center; }
+    .answers-group-title span { opacity: 0.85; font-size: 0.7rem; font-weight: 600; }
+    .answers-q-row { display: flex; align-items: baseline; gap: 10px; padding: 7px 12px; background: var(--offwhite); border-left: 3px solid transparent; border-bottom: 1px solid var(--lavender); font-size: 0.78rem; }
+    .answers-q-row:last-child { border-bottom: none; border-radius: 0 0 6px 6px; }
+    .answers-q-num { font-weight: 700; font-size: 0.7rem; min-width: 20px; opacity: 0.5; }
+    .answers-q-text { flex: 1; color: var(--navy); line-height: 1.45; }
+    .answers-q-score { font-weight: 700; font-size: 0.9rem; min-width: 18px; text-align: right; }
+
+    .btn-toggle-detail {
+      background: transparent; border: 1.5px solid var(--lavender); color: var(--muted);
+      padding: 10px 20px; border-radius: 10px; font-size: 0.82rem; font-weight: 700;
+      cursor: pointer; width: 100%; margin-top: 10px;
+      font-family: 'Quicksand', sans-serif; transition: all 0.15s;
+    }
+    .btn-toggle-detail:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* Intro */
+    .value-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin: 20px 0; }
+    @media (max-width: 540px) { .value-cards { grid-template-columns: 1fr; } }
+    .value-card { background: var(--offwhite); border-radius: 14px; padding: 18px 16px; text-align: center; border-top: 4px solid; }
+    .value-card .val-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .value-card h3 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 5px; }
+    .value-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+    .vc-1 { border-color: var(--pink); } .vc-1 h3 { color: var(--pink); }
+    .vc-2 { border-color: var(--blue); } .vc-2 h3 { color: var(--blue); }
+    .vc-3 { border-color: var(--skyblue); } .vc-3 h3 { color: var(--skyblue); }
+
+    .timeline-row { display: flex; overflow-x: auto; margin: 16px 0 8px; padding-bottom: 4px; }
+    .tl-item { flex: 1; min-width: 80px; text-align: center; position: relative; padding-top: 34px; }
+    .tl-item::after { content: ''; position: absolute; top: 40px; right: 0; width: 50%; height: 2px; background: var(--lavender); }
+    .tl-item:last-child::after { display: none; }
+    .tl-item::before { content: ''; position: absolute; top: 36px; left: 50%; width: 10px; height: 10px; background: var(--pink); border-radius: 50%; transform: translateX(-50%); z-index: 1; }
+    .tl-year { font-size: 0.72rem; font-weight: 700; color: var(--pink); position: absolute; top: 8px; left: 0; right: 0; }
+    .tl-desc { font-size: 0.68rem; color: var(--muted); line-height: 1.4; padding: 12px 4px 0; }
+
+    .steps-row { display: flex; gap: 12px; margin: 24px 0; }
+    @media (max-width: 520px) { .steps-row { flex-direction: column; } }
+    .step-item { flex: 1; background: var(--offwhite); border-radius: 14px; padding: 16px 14px; text-align: center; }
+    .step-num { width: 30px; height: 30px; background: var(--pink); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; margin: 0 auto 10px; }
+    .step-item h4 { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); margin-bottom: 4px; }
+    .step-item p { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+
+    /* Results candidat */
+    .candi-summary { background: linear-gradient(135deg, #FFF0F8, #F0F0FF); border-radius: 14px; padding: 20px 22px; margin-bottom: 20px; border: 1.5px solid #FFBAD8; }
+    .candi-summary h2 { font-size: 1.1rem; color: var(--navy); margin-bottom: 6px; }
+    .candi-summary .candi-meta { font-size: 0.82rem; color: var(--muted); margin-bottom: 10px; }
+    .candi-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .candi-tag { background: white; border: 1.5px solid var(--lavender); border-radius: 8px; padding: 4px 12px; font-size: 0.75rem; color: var(--navy); font-weight: 600; }
+    .rq-block { background: var(--offwhite); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; border-left: 4px solid var(--blue); }
+    .rq-block .rq-q { font-size: 0.78rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .rq-block .rq-a { font-size: 0.88rem; color: var(--navy); line-height: 1.6; white-space: pre-wrap; }
+
+    .footer { text-align: center; margin-top: 28px; font-size: 0.75rem; color: var(--lavender); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    /* Print */
+    .print-header { display: none; }
+    .print-date { display: none; }
+
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: white !important; padding: 0 !important; display: block !important; }
+      .card { box-shadow: none !important; border-radius: 0 !important; padding: 28px 36px !important; max-width: 100% !important; }
+      #page-intro, #page-parcours, #page-questions-recto, #page-questions2 { display: none !important; }
+      #page-results { display: block !important; }
+      .btn, .btn-back, .footer { display: none !important; }
+      .logo-bar { display: none !important; }
+      .print-header { display: flex !important; align-items: center; justify-content: space-between; border-bottom: 3px solid #FF3285; padding-bottom: 14px; margin-bottom: 20px; }
+      .print-date { display: block !important; font-size: 0.75rem; color: #6B6B9A; text-align: right; margin-top: 4px; }
+      h1 { font-size: 1.4rem !important; }
+      .insight-block, .results-table, .candi-summary, .rq-block { break-inside: avoid; page-break-inside: avoid; }
+      .btn-toggle-detail { display: none !important; }
+      .answers-detail-wrap { display: block !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="card" id="app">
+
+<!-- SVG Logo (inline, réutilisé via JS) -->
+<template id="logo-tpl">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.64 233.46" width="180" height="79" aria-label="Hello Pomelo"><defs><style>.cls-1{fill:#ff3285;}.cls-2{fill:#0000ea;}</style></defs><g><path class="cls-1" d="M744.57,171.86A75,75,0,0,1,722,167.13c-10.73-4.15-23.64-18.08-42.91-22.29-21.93-4.78-33.75,2.74-38.91,7.76A24.5,24.5,0,0,0,638,155a2.14,2.14,0,0,0,.1,2.77l.34.37c.49.53,1.1,1.17,1.82,1.9,7.37,7.52,26.54,24.59,51.32,28a76.92,76.92,0,0,0,24-.62,101.21,101.21,0,0,0,30-10.54A2.72,2.72,0,0,0,744.57,171.86Zm-51.11-2c-5.56-2.91-14.16-7.9-23.13-10.09-10-2.44-24.59-1.87-29.43-2.1a1.38,1.38,0,0,1-.07-2.76c7.3-.73,22.19-1.72,31.25.58,8.79,2.22,18.62,8.59,22.92,12A1.42,1.42,0,0,1,693.46,169.91Z" transform="translate(-213.44 -138.53)"/><path class="cls-1" d="M637.75,210.17a68.2,68.2,0,1,0,68.2,68.2A68.21,68.21,0,0,0,637.75,210.17Zm45.39,33.65c6.69,8.39,5.6,19.51,1.89,20.55L649.1,274.46c-3.71,1-5.24-.88-3.4-4.27l17.82-32.78C665.36,234,676.91,236,683.14,243.82Zm-91.1,0c6.69-8.39,17.77-9.8,19.62-6.41l17.82,32.78c1.84,3.39.31,5.31-3.4,4.27l-35.93-10.08C586.44,263.34,585.81,251.64,592,243.83Zm-11.25,49.29c-2.38-10.46,3.42-20,7.22-19.34l36.74,6.51c3.8.67,4.35,3.06,1.22,5.32l-30.28,21.8C592.56,309.66,583,302.86,580.79,293.12Zm53.82-.48-1.83,37.27c-.19,3.85-11.46,7.07-20.46,2.73C602.65,328,598.81,317.5,601.7,315l28-24.68C632.59,287.73,634.8,288.79,634.61,292.64Zm.25-25-14.52-34.37c-1.5-3.55,7.25-11.34,17.25-11.34,10.73,0,18.74,7.79,17.24,11.34L640.31,267.6C638.81,271.16,636.36,271.16,634.86,267.6Zm28,65c-9.66,4.65-20.26,1.12-20.45-2.73l-1.84-37.27c-.19-3.85,2-4.92,4.92-2.37l28,24.67C676.39,317.49,671.88,328.3,662.87,332.64ZM679.5,307.4l-30.28-21.8c-3.13-2.26-2.58-4.65,1.21-5.32l36.74-6.51c3.8-.67,9.44,9.6,7.22,19.34C692,303.57,682.63,309.65,679.5,307.4Z" transform="translate(-213.44 -138.53)"/><rect class="cls-1" x="622.3" y="139.76" width="17.65" height="30.72" rx="1.92" ry="1.92" transform="translate(-232.2 11.22) rotate(-13.33)"/><path class="cls-1" d="M706.78,207.43l-7.63-12.49a3.06,3.06,0,0,0-2.18-1.43c-8.26-1.22-26-6.43-32.43-9.77-15-7.81-20.67-18-24.07-24.66-.72-.73-1.32-1.37-1.81-1.9-3.26-.54-13.07-.47-13.5-.4-15.16,2.49-26.81,10.35-36.72,20.73C570.52,196.3,543.58,245,544,279.47a93.58,93.58,0,1,0,187.14-2.13C730.87,256.14,719.58,229,706.78,207.43Zm-69,147.51a76.57,76.57,0,1,1,76.57-76.57A76.57,76.57,0,0,1,637.75,354.94Z" transform="translate(-213.44 -138.53)"/></g><g><path class="cls-2" d="M229.81,335.6h-8.6v15.18a3.89,3.89,0,0,1-7.77,0V309.5a3.84,3.84,0,0,1,3.85-3.85h12.52a15,15,0,1,1,0,30Zm-8.6-7.77h8.6a7.21,7.21,0,1,0,0-14.41h-8.6Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M298.1,311.74a25.69,25.69,0,0,1,0,35.4,22.91,22.91,0,0,1-16.72,7.49,23.6,23.6,0,0,1-17.14-7.49,26.07,26.07,0,0,1,0-35.4,23.34,23.34,0,0,1,17.14-7.49A22.65,22.65,0,0,1,298.1,311.74Zm-.91,17.7a18.11,18.11,0,0,0-4.76-12.24,15.08,15.08,0,0,0-22.38,0,17.78,17.78,0,0,0-4.76,12.24,17.51,17.51,0,0,0,4.76,12.18,15,15,0,0,0,22.38,0A17.82,17.82,0,0,0,297.19,329.44Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M363.52,309.5v41.28a3.94,3.94,0,0,1-3.91,3.85,3.84,3.84,0,0,1-3.85-3.85V321.33l-10.08,14a3.82,3.82,0,0,1-3.15,1.61h-.14a3.94,3.94,0,0,1-3.21-1.61l-10-14v29.45a3.89,3.89,0,0,1-7.77,0V309.5a3.88,3.88,0,0,1,3.85-3.85h.21a3.79,3.79,0,0,1,3.08,1.61l13.92,19.31,13.93-19.31a3.82,3.82,0,0,1,3.15-1.61h.07A4,4,0,0,1,363.52,309.5Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M382.21,350.78V309.5a3.8,3.8,0,0,1,3.85-3.85h22.88a3.88,3.88,0,0,1,3.84,3.85,3.94,3.94,0,0,1-3.84,3.92H390v12.8h16.31a3.89,3.89,0,0,1,0,7.77H390v12.87h19a3.89,3.89,0,0,1,0,7.77H386.27c-.14,0-.14-.07-.14-.07l-.07.07A3.84,3.84,0,0,1,382.21,350.78Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M429,350.78V309.5a3.84,3.84,0,0,1,3.85-3.85,3.9,3.9,0,0,1,3.91,3.85v37.36h19a3.89,3.89,0,0,1,0,7.77H432.8A3.84,3.84,0,0,1,429,350.78Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M509.41,311.74a25.69,25.69,0,0,1,0,35.4,22.91,22.91,0,0,1-16.72,7.49,23.6,23.6,0,0,1-17.14-7.49,26.07,26.07,0,0,1,0-35.4,23.34,23.34,0,0,1,17.14-7.49A22.65,22.65,0,0,1,509.41,311.74Zm-.91,17.7a18.11,18.11,0,0,0-4.76-12.24,15.05,15.05,0,0,0-11.05-5,15.24,15.24,0,0,0-11.34,5,17.82,17.82,0,0,0-4.75,12.24,17.54,17.54,0,0,0,4.75,12.18,15.33,15.33,0,0,0,11.34,5,15.15,15.15,0,0,0,11.05-5A17.82,17.82,0,0,0,508.5,329.44Z" transform="translate(-213.44 -138.53)"/></g><g><path class="cls-2" d="M428.6,263.19V221.91a3.84,3.84,0,0,1,3.85-3.85,3.9,3.9,0,0,1,3.91,3.85v37.36h19a3.89,3.89,0,0,1,0,7.77H432.45A3.84,3.84,0,0,1,428.6,263.19Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M509.06,224.15a25.69,25.69,0,0,1,0,35.4A22.91,22.91,0,0,1,492.34,267a23.6,23.6,0,0,1-17.14-7.49,26.07,26.07,0,0,1,0-35.4,23.34,23.34,0,0,1,17.14-7.49A22.65,22.65,0,0,1,509.06,224.15Zm-.91,17.7a18.13,18.13,0,0,0-4.76-12.24,15.05,15.05,0,0,0-11.05-5,15.24,15.24,0,0,0-11.34,5,17.84,17.84,0,0,0-4.75,12.24A17.54,17.54,0,0,0,481,254a15.3,15.3,0,0,0,11.34,5,15.12,15.12,0,0,0,11.05-5A17.82,17.82,0,0,0,508.15,241.85Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M381.76,263.19V221.91a3.84,3.84,0,0,1,3.85-3.85,3.9,3.9,0,0,1,3.91,3.85v37.37h19a3.88,3.88,0,0,1,0,7.76H385.61A3.84,3.84,0,0,1,381.76,263.19Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M325.78,263.28V222a3.8,3.8,0,0,1,3.85-3.85h22.88a3.88,3.88,0,0,1,3.85,3.85,4,4,0,0,1-3.85,3.92h-19v12.8h16.3a3.89,3.89,0,0,1,0,7.77h-16.3v12.87h19a3.89,3.89,0,0,1,0,7.77H329.84c-.14,0-.14-.07-.14-.07l-.07.07A3.84,3.84,0,0,1,325.78,263.28Z" transform="translate(-213.44 -138.53)"/><path class="cls-2" d="M265,263.28V222a3.8,3.8,0,0,1,3.85-3.85,3.85,3.85,0,0,1,3.92,3.85v16.79h18.12V222a3.8,3.8,0,0,1,3.85-3.85A3.85,3.85,0,0,1,298.7,222v41.28a3.85,3.85,0,0,1-3.92,3.85,3.8,3.8,0,0,1-3.85-3.85V246.49H272.81v16.79a3.85,3.85,0,0,1-3.92,3.85A3.8,3.8,0,0,1,265,263.28Z" transform="translate(-213.44 -138.53)"/></g></svg>
+</template>
+
+<!-- ══ PAGE INTRO ══ -->
+<div id="page-intro">
+  <div class="logo-bar" id="logo-intro"></div>
+  <h1>Rejoins l'aventure Hello Pomelo</h1>
+  <p class="subtitle">10 ans d'exploits de passionnés. Une immersion au cœur de la tech française.<br>Ce formulaire te permet de te présenter, partager ta vision et découvrir ton profil de talent.</p>
+
+  <div class="section-title">Notre ADN</div>
+  <div class="value-cards">
+    <div class="value-card vc-1"><div class="val-icon">💻</div><h3>Travail</h3><p>Des passionné(e)s prêt(e)s à résoudre des problèmes complexes avec rigueur pour le succès de chaque projet.</p></div>
+    <div class="value-card vc-2"><div class="val-icon">🤝</div><h3>Unité</h3><p>Des équipes construites sur les compétences. Nos succès sont le fruit d'un collectif au service de nos partenaires.</p></div>
+    <div class="value-card vc-3"><div class="val-icon">🚀</div><h3>Aventure</h3><p>On sort de notre zone de confort, on explore de nouvelles idées et de nouvelles façons de faire.</p></div>
+  </div>
+
+  <div class="section-title">Notre histoire</div>
+  <div class="timeline-row">
+    <div class="tl-item"><div class="tl-year">2017</div><div class="tl-desc">Création Hello Pomelo à Paris</div></div>
+    <div class="tl-item"><div class="tl-year">2019</div><div class="tl-desc">Nantes &amp; Bordeaux</div></div>
+    <div class="tl-item"><div class="tl-year">2021</div><div class="tl-desc">Barcelone &amp; e-commerce</div></div>
+    <div class="tl-item"><div class="tl-year">2022</div><div class="tl-desc">Data &amp; IA</div></div>
+    <div class="tl-item"><div class="tl-year">2023</div><div class="tl-desc">BU DevOps</div></div>
+    <div class="tl-item"><div class="tl-year">2024</div><div class="tl-desc">+100 Collaborateurs</div></div>
+    <div class="tl-item"><div class="tl-year">2025</div><div class="tl-desc">BU ERP</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-title">Comment ça se passe ?</div>
+  <div class="steps-row">
+    <div class="step-item"><div class="step-num">1</div><h4>Ton parcours</h4><p>Dis-nous qui tu es, ta formation et tes expériences.</p></div>
+    <div class="step-item"><div class="step-num">2</div><h4>Questions pour toi</h4><p>6 questions ouvertes pour mieux te connaître.</p></div>
+    <div class="step-item"><div class="step-num">3</div><h4>Test de talent</h4><p>24 questions pour révéler ton profil de talent.</p></div>
+  </div>
+  <button class="btn btn-primary" onclick="goTo('page-parcours')">Démarrer ma candidature →</button>
+  <div class="footer">Hello Pomelo · Formulaire de candidature</div>
+</div>
+
+<!-- ══ PAGE PARCOURS ══ -->
+<div id="page-parcours" class="hidden">
+  <div class="logo-bar" id="logo-parcours"></div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:33%"></div></div>
+  <div class="progress-meta"><span>Étape 1/3 — Ton parcours</span><span>33% complété</span></div>
+  <h1>Ton parcours</h1>
+  <p class="subtitle">Présente-toi en quelques mots. Les champs <span style="color:var(--pink)">*</span> sont obligatoires.</p>
+
+  <div class="section-title">Informations personnelles</div>
+  <div class="form-grid">
+    <div class="form-field"><label>Prénom <span class="req">*</span></label><input type="text" id="p-prenom" placeholder="Ton prénom"/></div>
+    <div class="form-field"><label>Nom <span class="req">*</span></label><input type="text" id="p-nom" placeholder="Ton nom"/></div>
+    <div class="form-field"><label>Email <span class="req">*</span></label><input type="email" id="p-email" placeholder="ton@email.com"/></div>
+    <div class="form-field"><label>Téléphone</label><input type="tel" id="p-tel" placeholder="+33 6 00 00 00 00"/></div>
+    <div class="form-field full"><label>Poste visé <span class="req">*</span></label><input type="text" id="p-poste" placeholder="ex. Développeur Web, Chef de projet, Data Analyst…"/></div>
+    <div class="form-field"><label>LinkedIn</label><input type="text" id="p-linkedin" placeholder="linkedin.com/in/ton-profil"/></div>
+    <div class="form-field"><label>Disponibilité</label><input type="text" id="p-dispo" placeholder="ex. Dès juillet 2025, sous 3 mois…"/></div>
+  </div>
+
+  <div class="section-title">Formation</div>
+  <div id="formations-list">
+    <div class="form-grid" id="formation-0">
+      <div class="form-field"><label>École / Université <span class="req">*</span></label><input type="text" id="p-ecole" placeholder="Nom de ton établissement"/></div>
+      <div class="form-field"><label>Dernier diplôme obtenu</label>
+        <select id="p-niveau">
+          <option value="">Sélectionne…</option>
+          <option>Bac</option><option>Bac+2 (BTS / DUT)</option><option>Bac+3 (Licence / Bachelor)</option>
+          <option>Bac+4 (Master 1)</option><option>Bac+5 (Master 2 / Ingénieur)</option><option>Bac+6 et plus</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Année de fin d'études</label><select id="p-annee"></select></div>
+      <div class="form-field full"><label>Spécialité / Filière</label><input type="text" id="p-filiere" placeholder="ex. Informatique, Génie logiciel, Data Science…"/></div>
+    </div>
+  </div>
+  <button class="btn-add-formation" id="add-formation-btn" onclick="addFormation()">+ Ajouter une formation</button>
+
+  <div class="section-title">Expériences &amp; compétences</div>
+  <div class="form-grid">
+    <div class="form-field full"><label>Synthèse de tes dernières expériences marquantes</label><textarea id="p-exp" placeholder="Stages, alternances, projets perso ou associatifs…"></textarea></div>
+    <div class="form-field full"><label>Compétences techniques</label><textarea id="p-skills" placeholder="Langages, frameworks, outils… (ex. Python, React, Docker, SQL)"></textarea></div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:8px;">
+    <button class="btn-back" onclick="goTo('page-intro')">← Retour</button>
+    <button class="btn btn-primary" onclick="validerParcours()" style="margin-top:0;flex:1;">Suivant — Questions pour toi →</button>
+  </div>
+  <div class="footer">Hello Pomelo · Formulaire de candidature</div>
+</div>
+
+<!-- ══ PAGE QUESTIONS RECRUTEMENT ══ -->
+<div id="page-questions-recto" class="hidden">
+  <div class="logo-bar" id="logo-qrecto"></div>
+  <div class="progress-wrap"><div class="progress-bar" style="width:66%"></div></div>
+  <div class="progress-meta"><span>Étape 2/3 — Questions pour toi</span><span>66% complété</span></div>
+  <h1>Questions pour toi</h1>
+  <p class="subtitle">Pas de bonne ou mauvaise réponse — on veut juste mieux te connaître. Prends le temps d'être authentique.</p>
+
+  <div class="scale-hint" style="background:#F0F0FF;border-color:var(--blue);color:var(--blue);">
+    <span>✦ Réponds librement aux 6 questions ci-dessous</span>
+  </div>
+
+  <div class="question-block"><div class="question-text"><span class="question-num">1.</span>Liste les 3 choses qui t'attirent le plus chez Hello Pomelo et explique pourquoi tu veux nous rejoindre.</div><div class="form-field"><textarea id="q1" placeholder="1. …&#10;2. …&#10;3. …" style="min-height:120px;"></textarea></div></div>
+  <div class="question-block"><div class="question-text"><span class="question-num">2.</span>Décris-nous le projet tech dont tu es le plus fier(e). Quel était ton rôle ?</div><div class="form-field"><textarea id="q2" placeholder="Présente le contexte, les défis, ton impact…" style="min-height:100px;"></textarea></div></div>
+  <div class="question-block"><div class="question-text"><span class="question-num">3.</span>Face à un problème complexe que tu n'as jamais rencontré, comment t'y prends-tu ?</div><div class="form-field"><textarea id="q3" placeholder="Décris ta démarche…" style="min-height:100px;"></textarea></div></div>
+  <div class="question-block"><div class="question-text"><span class="question-num">4.</span>Comment définirais-tu ta façon de travailler en équipe ?</div><div class="form-field"><textarea id="q4" placeholder="Ton rôle naturel dans un groupe, tes préférences…" style="min-height:100px;"></textarea></div></div>
+  <div class="question-block"><div class="question-text"><span class="question-num">5.</span>Où te vois-tu dans 3 ans ? Quelles compétences veux-tu développer ?</div><div class="form-field"><textarea id="q5" placeholder="Tes ambitions et objectifs…" style="min-height:100px;"></textarea></div></div>
+  <div class="question-block"><div class="question-text"><span class="question-num">6.</span>Quelle idée ou innovation apporterais-tu à Hello Pomelo dès ton arrivée ?</div><div class="form-field"><textarea id="q6" placeholder="Une amélioration, un outil, une approche…" style="min-height:100px;"></textarea></div></div>
+
+  <div style="display:flex;gap:10px;margin-top:8px;">
+    <button class="btn-back" onclick="goTo('page-parcours')">← Retour</button>
+    <button class="btn btn-primary" id="start-genius-btn" onclick="startGenius()" style="margin-top:0;flex:1;">Suivant — Test de talent →</button>
+  </div>
+  <div class="footer">Hello Pomelo · Formulaire de candidature</div>
+</div>
+
+<!-- ══ PAGE TEST TALENT ══ -->
+<div id="page-questions2" class="hidden">
+  <div class="logo-bar" id="logo-genius"></div>
+  <div class="progress-wrap"><div class="progress-bar" id="progress-bar2"></div></div>
+  <div class="progress-meta"><span id="step-label2"></span><span id="step-pct2"></span></div>
+
+  <div class="scale-hint" style="background:#F0F0FF;border-color:var(--blue);color:var(--blue);">
+    <span>⚡ Pour chaque affirmation, indique à quel point elle t'<strong>énergise</strong> — il n'y a pas de bonne ou mauvaise réponse, c'est la valeur <strong>relative</strong> qui compte.</span>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 18px;font-size:0.75rem;color:var(--muted);">
+    <span style="background:#f5f5fa;padding:4px 10px;border-radius:20px;">😴 1 — Épuisé(e)</span>
+    <span style="background:#f5f5fa;padding:4px 10px;border-radius:20px;">😕 2 — Drainé(e)</span>
+    <span style="background:#f5f5fa;padding:4px 10px;border-radius:20px;">😐 3 — Neutre</span>
+    <span style="background:#f5f5fa;padding:4px 10px;border-radius:20px;">🙂 4 — Énergisé(e)</span>
+    <span style="background:#f5f5fa;padding:4px 10px;border-radius:20px;">⚡ 5 — Très énergisé(e)</span>
+  </div>
+  <div id="questions-container2"></div>
+  <div style="display:flex;gap:10px;margin-top:12px;">
+    <button class="btn-back" id="back-btn2" onclick="prevGroup2()">← Retour</button>
+    <button class="btn btn-primary" id="next-btn2" onclick="nextGroup2()" disabled style="margin-top:0;flex:1;">Suivant →</button>
+  </div>
+  <div class="footer">Hello Pomelo · Test de talent · Étape 3/3</div>
+</div>
+
+<!-- ══ PAGE RÉSULTATS ══ -->
+<div id="page-results" class="hidden">
+  <div class="logo-bar" id="logo-results"></div>
+  <div class="print-header">
+    <div id="print-logo-small"></div>
+    <div style="text-align:right;">
+      <div style="font-size:0.7rem;color:#6B6B9A;text-transform:uppercase;letter-spacing:0.06em;">Candidature Hello Pomelo</div>
+      <div class="print-date" id="print-date-val" style="display:block;"></div>
+      <div id="print-name-val" style="font-size:0.85rem;font-weight:700;color:#05056D;margin-top:2px;"></div>
+    </div>
+  </div>
+
+  <h1>Dossier de candidature</h1>
+  <p class="subtitle">Synthèse complète de ta candidature chez Hello Pomelo.</p>
+  <div class="divider"></div>
+
+  <div class="section-title" style="margin-top:0;">Profil candidat</div>
+  <div class="candi-summary" id="candi-summary-block"></div>
+
+  <div class="section-title">Questions de recrutement</div>
+  <div id="rq-answers-block"></div>
+
+  <div class="divider"></div>
+
+  <div class="section-title">Profil de talent au travail</div>
+  <p style="font-size:0.82rem;color:var(--muted);margin:-8px 0 12px;">Les zones encerclées correspondent à tes 2 types de talent naturel.</p>
+  <div id="results-gear-chart2" style="margin:4px 0 20px;"></div>
+  <div class="divider" style="margin-bottom:18px;"></div>
+
+  <div class="section-title">Récapitulatif des scores</div>
+  <table class="results-table" id="results-table2"></table>
+
+  <div class="section-title">Talents Naturels 🏆</div><div id="genius-blocks2"></div>
+  <div class="section-title">Compétences ⚡</div><div id="competency-blocks2"></div>
+  <div class="section-title">Zones de Frustration ⚠️</div><div id="frustration-blocks2"></div>
+  <div class="section-title">Rôles Suggérés</div><div id="roles-block2"></div>
+
+  <div class="divider" style="margin-top:28px;"></div>
+  <div class="section-title">Détail des 24 réponses</div>
+  <button class="btn-toggle-detail" id="toggle-detail-btn2" onclick="toggleDetail2()">▼ Afficher le détail des 24 réponses</button>
+  <div id="answers-detail2" class="answers-detail-wrap" style="display:none;"></div>
+  <div class="divider" style="margin-top:32px;"></div>
+
+  <button class="btn btn-pdf" onclick="window.print()">📥 Télécharger mon dossier en PDF</button>
+  <button class="btn btn-secondary" onclick="goTo('page-intro')">← Recommencer</button>
+  <div class="footer">Hello Pomelo · Outil de recrutement</div>
+</div>
+
+</div>
+<script>
+// ── Logo injection ────────────────────────────────────────────────────────────
+(function(){
+  const tpl = document.getElementById('logo-tpl').innerHTML;
+  ['logo-intro','logo-parcours','logo-qrecto','logo-genius','logo-results'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.innerHTML=tpl;
+  });
+  const sm=document.getElementById('print-logo-small');
+  if(sm) sm.innerHTML=tpl.replace('width="180" height="79"','width="120" height="53"');
+})();
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+const ALL_PAGES=['page-intro','page-parcours','page-questions-recto','page-questions2','page-results'];
+function goTo(id){ ALL_PAGES.forEach(p=>document.getElementById(p).classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); window.scrollTo({top:0,behavior:'smooth'}); if(id==='page-questions-recto') updateStartBtn(); }
+
+function validerParcours(){
+  const req=['p-prenom','p-nom','p-email','p-poste','p-ecole'];
+  for(const id of req){
+    const el=document.getElementById(id);
+    if(!el.value.trim()){ el.focus(); el.style.borderColor='var(--pink)'; alert('Merci de remplir les champs obligatoires (marqués *)'); return; }
+    else el.style.borderColor='';
+  }
+  goTo('page-questions-recto');
+}
+
+// ── Genius data ───────────────────────────────────────────────────────────────
+const TYPES=["Questionnement","Invention","Discernement","Mobilisation","Facilitation","Persévérance"];
+const COLORS={Questionnement:"#FF3285",Invention:"#0000EA",Discernement:"#5BB6F4",Mobilisation:"#E8A000",Facilitation:"#8F8FBC",Persévérance:"#05056D"};
+const DESCRIPTIONS={
+  Questionnement:"Vous êtes un explorateur naturel. Vous prospérez en examinant les problèmes, en posant des questions profondes et en pressentant quand quelque chose doit changer — avant même que les autres le remarquent.",
+  Invention:"Vous êtes un créateur né. Donnez-vous une page blanche et un problème, et vous trouverez un moyen. Vous adorez créer quelque chose à partir de rien et penser en dehors des sentiers battus.",
+  Discernement:"Vous êtes un évaluateur instinctif. Vous avez la rare capacité de sentir si les idées vont fonctionner, et les gens font confiance à votre jugement intuitif pour les guider.",
+  Mobilisation:"Vous êtes un catalyseur énergique. Vous ne vous contentez pas de vous enthousiasmer pour les idées — vous transmettez cet enthousiasme aux autres et les mobilisez pour passer à l'action.",
+  Facilitation:"Vous êtes un soutien naturel. Vous trouvez un sens profond à aider les autres à réussir, travaillant souvent en coulisses pour que l'équipe puisse avancer.",
+  Persévérance:"Vous êtes un finisseur inébranlable. Vous trouvez de l'énergie dans l'exécution, surmontez les obstacles et vous assurez que les engagements sont tenus et les projets menés à bien."
+};
+const COMPETENCE_DESCRIPTIONS={
+  Questionnement:"Vous êtes capable de prendre du recul et de questionner une situation si le contexte l'exige. Ce n'est pas votre réflexe premier, mais vous pouvez vous y exercer. Cela ne vous apporte pas d'énergie particulière — c'est une capacité disponible, pas un moteur.",
+  Invention:"Vous pouvez vous adapter à des contextes créatifs et produire des idées lorsqu'on vous le demande. Ce n'est pas là que vous vous sentez le plus dans votre élément, mais vous n'êtes pas non plus démuni face à un défi ouvert.",
+  Discernement:"Vous êtes en mesure d'analyser des options et de formuler un avis sur des idées ou des décisions. C'est une capacité que vous possédez, même si elle vous demande davantage d'effort que vos talents naturels.",
+  Mobilisation:"Vous pouvez prendre le lead ponctuellement et embarquer un groupe si la situation l'impose. Ce n'est pas votre moteur principal, mais cela reste accessible dans des contextes précis — à condition que ce ne soit pas votre rôle en permanence.",
+  Facilitation:"Vous êtes capable de soutenir vos collègues et de vous mettre au service de l'équipe lorsque c'est nécessaire. Ce rôle peut fonctionner sur une courte durée, même s'il ne correspond pas à ce qui vous anime profondément.",
+  Persévérance:"Vous pouvez assurer le suivi d'un projet et tenir vos engagements dans la durée. C'est une compétence fiable sur laquelle on peut s'appuyer, même si l'exécution répétitive n'est pas ce qui vous donne de l'élan."
+};
+const FRUSTRATION_DESCRIPTIONS={
+  Questionnement:"Remettre en question l'existant et explorer des voies alternatives est quelque chose qui vous coûte. Dans les situations où l'on attend de vous que vous défiez les pratiques établies ou que vous posiez des questions inconfortables, vous aurez tendance à vous sentir bloqué ou à court d'élan.",
+  Invention:"Partir d'une page blanche pour créer une solution nouvelle est une source de difficulté. Sans cadre ou modèle existant, vous risquez de vous sentir paralysé ou peu inspiré face à des défis ouverts qui demandent de l'originalité.",
+  Discernement:"Évaluer des idées et trancher sur la base de votre seul jugement intuitif peut vous mettre mal à l'aise. Vous avez tendance à douter de vos instincts dans les situations d'analyse ou de sélection, ce qui peut ralentir votre prise de décision.",
+  Mobilisation:"Rallier un groupe autour d'une cause et créer l'enthousiasme initial vous demande un effort considérable. Convaincre, inspirer et maintenir l'élan chez les autres est une source d'épuisement plutôt que d'énergie pour vous.",
+  Facilitation:"Se mettre en retrait pour soutenir les autres et répondre à leurs besoins en continu peut rapidement vous peser. Vous avez du mal à rester longtemps dans une posture d'aide ou de service sans que cela empiète sur votre propre énergie.",
+  Persévérance:"Maintenir le cap sur le long terme, notamment lors de phases d'exécution répétitives ou de suivi rigoureux, est une réelle difficulté pour vous. La routine et les tâches sans nouveauté sont des sources de frustration et de décrochage."
+};
+const ROLE_SUGGESTIONS={
+  Questionnement:["Stratège","Chercheur","Visionnaire Produit","Consultant","Responsable Innovation"],
+  Invention:["Designer Produit","Entrepreneur","Spécialiste R&D","Directeur Créatif","Architecte Solutions"],
+  Discernement:["Conseiller","Analyste Qualité","Directeur Éditorial","Consultant Senior","Directeur de Cabinet"],
+  Mobilisation:["Chef d'Équipe","Directeur Commercial","Community Manager","Fondateur","Change Manager"],
+  Facilitation:["Responsable Opérations","Coordinateur Projet","Customer Success","HRBP","DG / COO"],
+  Persévérance:["Chef de Projet","Ingénieur","Comptable","Directeur de Programme","Responsable Delivery"]
+};
+const QUESTIONS2=[
+  {group:0,type:"Questionnement",text:"Si je dois questionner les pratiques actuelles et explorer de nouvelles façons de faire, je me sens plutôt :"},
+  {group:0,type:"Facilitation",text:"Si je dois aider concrètement un collègue à atteindre son objectif, je me sens plutôt :"},
+  {group:0,type:"Invention",text:"Si je dois trouver une solution créative à un problème sans réponse évidente, je me sens plutôt :"},
+  {group:0,type:"Persévérance",text:"Si je dois mener un projet jusqu'au bout, même quand c'est difficile, je me sens plutôt :"},
+  {group:0,type:"Discernement",text:"Si je dois évaluer des idées pour détecter celles qui ont du potentiel, je me sens plutôt :"},
+  {group:0,type:"Mobilisation",text:"Si je dois rassembler des gens autour d'un projet et les motiver à agir ensemble, je me sens plutôt :"},
+  {group:1,type:"Persévérance",text:"Si je dois assurer le suivi rigoureux d'un projet et veiller à ce que rien ne soit laissé en suspens, je me sens plutôt :"},
+  {group:1,type:"Questionnement",text:"Si je dois questionner la pertinence des objectifs fixés par mon équipe et soulever les angles oubliés, je me sens plutôt :"},
+  {group:1,type:"Facilitation",text:"Si je dois soutenir les personnes de mon équipe pour qu'elles puissent faire leur meilleur travail, je me sens plutôt :"},
+  {group:1,type:"Discernement",text:"Si je dois analyser les risques et les opportunités d'une décision importante, je me sens plutôt :"},
+  {group:1,type:"Mobilisation",text:"Si je dois lancer un projet, créer l'élan initial et convaincre les autres de s'engager, je me sens plutôt :"},
+  {group:1,type:"Invention",text:"Si je dois proposer des approches radicalement nouvelles pour résoudre un défi collectif, je me sens plutôt :"},
+  {group:2,type:"Discernement",text:"Si je dois identifier les meilleures idées parmi de nombreuses options, je me sens plutôt :"},
+  {group:2,type:"Mobilisation",text:"Si je dois inspirer et galvaniser les gens pour qu'ils croient en une cause commune, je me sens plutôt :"},
+  {group:2,type:"Questionnement",text:"Si je dois poser les grandes questions — 'Pourquoi faisons-nous cela ?', 'Et si on abordait le problème autrement ?' — je me sens plutôt :"},
+  {group:2,type:"Invention",text:"Si je dois imaginer des idées et des concepts nouveaux à partir de rien, je me sens plutôt :"},
+  {group:2,type:"Facilitation",text:"Si je dois être à l'écoute des besoins des autres et trouver comment y répondre concrètement, je me sens plutôt :"},
+  {group:2,type:"Persévérance",text:"Si je dois rester concentré sur l'exécution et pousser jusqu'à la ligne d'arrivée, même sur des tâches répétitives, je me sens plutôt :"},
+  {group:3,type:"Facilitation",text:"Si je dois adapter mon aide aux besoins changeants des autres, sans imposer ma méthode, je me sens plutôt :"},
+  {group:3,type:"Invention",text:"Si je dois générer des idées en partant d'une page blanche, sans contrainte, je me sens plutôt :"},
+  {group:3,type:"Persévérance",text:"Si je dois veiller à ce que les engagements pris soient respectés et que les résultats soient au rendez-vous, je me sens plutôt :"},
+  {group:3,type:"Mobilisation",text:"Si je dois créer un sentiment d'urgence et d'enthousiasme pour mobiliser un groupe, je me sens plutôt :"},
+  {group:3,type:"Questionnement",text:"Si je dois remettre en question une décision déjà prise qui me semble mal fondée, je me sens plutôt :"},
+  {group:3,type:"Discernement",text:"Si je dois aider une équipe à choisir la meilleure voie parmi plusieurs options, je me sens plutôt :"}
+];
+const ENERGY_LABELS=["😴 Épuisé(e)","😕 Drainé(e)","😐 Neutre","🙂 Énergisé(e)","⚡ Très énergisé(e)"];
+const GROUPS2=4, GROUP2_SIZE=6;
+let answers2=new Array(24).fill(0), currentGroup2=0;
+
+function startGenius(){ currentGroup2=0; if(!answers2.some(v=>v>0)) answers2=new Array(24).fill(0); renderGroup2(); goTo('page-questions2'); }
+function updateStartBtn(){ const btn=document.getElementById('start-genius-btn'); if(btn) btn.textContent=answers2.some(v=>v>0)?'✏️ Modifier mes réponses →':'Suivant — Test de talent →'; }
+
+function renderGroup2(){
+  const gq=QUESTIONS2.filter(q=>q.group===currentGroup2);
+  const c=document.getElementById('questions-container2'); c.innerHTML='';
+  gq.forEach((q,li)=>{
+    const gi=currentGroup2*GROUP2_SIZE+li;
+    const b=document.createElement('div'); b.className='question-block';
+    b.innerHTML=`<div class="question-text"><span class="question-num">${gi+1}.</span>${q.text}</div>
+      <div class="energy-row" id="row2-${gi}">
+        ${[1,2,3,4,5].map(v=>`<button class="energy-btn ${answers2[gi]===v?'selected':''}" onclick="selectRating2(${gi},${v})">
+          <span class="energy-emoji">${ENERGY_LABELS[v-1].split(' ')[0]}</span>
+          <span class="energy-label">${ENERGY_LABELS[v-1].split(' ').slice(1).join(' ')}</span>
+        </button>`).join('')}
+      </div>`;
+    c.appendChild(b);
+  });
+  updateProgress2(); updateNextBtn2();
+}
+
+function selectRating2(qi,v){ answers2[qi]=v; document.getElementById('row2-'+qi).querySelectorAll('.energy-btn').forEach((b,i)=>b.classList.toggle('selected',i+1===v)); updateNextBtn2(); }
+function updateNextBtn2(){ const s=currentGroup2*GROUP2_SIZE; const ok=answers2.slice(s,s+GROUP2_SIZE).every(v=>v>0); document.getElementById('next-btn2').disabled=!ok; document.getElementById('next-btn2').textContent=currentGroup2===GROUPS2-1?'Voir mes résultats →':'Suivant →'; }
+function updateProgress2(){ const p=(currentGroup2/GROUPS2)*100; document.getElementById('progress-bar2').style.width=p+'%'; const s=currentGroup2*GROUP2_SIZE; document.getElementById('step-label2').textContent=`Questions ${s+1}–${s+GROUP2_SIZE} sur 24 · Étape 3/3`; document.getElementById('step-pct2').textContent=Math.round(p)+'% complété'; const bb=document.getElementById('back-btn2'); if(currentGroup2===0){bb.textContent='← Questions précédentes';bb.style.borderColor='var(--pink)';bb.style.color='var(--pink)';}else{bb.textContent='← Retour';bb.style.borderColor='';bb.style.color='';} }
+function nextGroup2(){ if(currentGroup2<GROUPS2-1){currentGroup2++;renderGroup2();window.scrollTo({top:0,behavior:'smooth'});}else{showResults();} }
+function prevGroup2(){ if(currentGroup2>0){currentGroup2--;renderGroup2();window.scrollTo({top:0,behavior:'smooth'});}else{goTo('page-questions-recto');} }
+
+// ── Gear SVG ──────────────────────────────────────────────────────────────────
+const GEAR_POS={Questionnement:{cx:90,cy:140},Invention:{cx:200,cy:235},Discernement:{cx:310,cy:140},Mobilisation:{cx:420,cy:235},Facilitation:{cx:530,cy:140},Persévérance:{cx:640,cy:235}};
+function buildGearSVG(types){
+  let ov='';
+  types.forEach(t=>{ const p=GEAR_POS[t]; if(!p)return; const c=COLORS[t]; ov+=`<circle cx="${p.cx}" cy="${p.cy}" r="52" fill="${c}" fill-opacity="0.12" stroke="${c}" stroke-width="5"/><circle cx="${p.cx}" cy="${p.cy}" r="59" fill="none" stroke="${c}" stroke-width="2.5" stroke-dasharray="7,4" opacity="0.7"/><text x="${p.cx}" y="${p.cy<=150?p.cy+78:p.cy-70}" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="11.5" fill="${c}">✦ TALENT</text>`; });
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 730 375" style="width:100%;max-width:700px;display:block;margin:0 auto;"><defs><marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L9,3.5 Z" fill="#5BB6F4"/></marker></defs>
+<line x1="133" y1="177" x2="152" y2="193" stroke="#5BB6F4" stroke-width="3.5" marker-end="url(#arr)"/>
+<line x1="243" y1="198" x2="262" y2="182" stroke="#5BB6F4" stroke-width="3.5" marker-end="url(#arr)"/>
+<line x1="353" y1="177" x2="372" y2="193" stroke="#5BB6F4" stroke-width="3.5" marker-end="url(#arr)"/>
+<line x1="463" y1="198" x2="482" y2="182" stroke="#5BB6F4" stroke-width="3.5" marker-end="url(#arr)"/>
+<line x1="573" y1="177" x2="592" y2="193" stroke="#5BB6F4" stroke-width="3.5" marker-end="url(#arr)"/>
+<path d="M90,100 L97,101 L99,89 L113,93 L108,104 L114,108 L119,112 L127,104 L136,116 L125,121 L128,128 L130,134 L142,133 L142,147 L130,146 L128,152 L125,159 L136,164 L127,176 L119,168 L114,172 L108,176 L113,187 L99,191 L97,179 L90,180 L83,179 L81,191 L67,187 L72,176 L67,172 L61,168 L53,176 L44,164 L55,159 L52,152 L50,146 L39,147 L39,133 L50,134 L52,128 L55,121 L44,116 L53,104 L61,112 L67,108 L72,104 L67,93 L81,89 L83,101 Z" fill="#FF3285"/>
+<circle cx="90" cy="140" r="36" fill="white"/><text x="90" y="141" text-anchor="middle" dominant-baseline="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="26" fill="#FF3285">Q</text>
+<text x="90" y="75" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="#FF3285">Questionnement</text>
+<path d="M200,195 L207,196 L209,184 L223,188 L218,199 L224,203 L229,207 L237,199 L246,211 L235,216 L238,223 L240,229 L252,228 L252,242 L240,241 L238,247 L235,254 L246,259 L237,271 L229,263 L224,267 L218,271 L223,282 L209,286 L207,274 L200,275 L193,274 L191,286 L177,282 L182,271 L177,267 L171,263 L163,271 L154,259 L165,254 L162,247 L160,241 L149,242 L149,228 L160,229 L162,223 L165,216 L154,211 L163,199 L171,207 L177,203 L182,199 L177,188 L191,184 L193,196 Z" fill="#FF3285"/>
+<circle cx="200" cy="235" r="36" fill="white"/><text x="200" y="236" text-anchor="middle" dominant-baseline="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="26" fill="#FF3285">I</text>
+<text x="200" y="307" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="#FF3285">Invention</text>
+<path d="M310,100 L317,101 L319,89 L333,93 L328,104 L334,108 L339,112 L347,104 L356,116 L345,121 L348,128 L350,134 L362,133 L362,147 L350,146 L348,152 L345,159 L356,164 L347,176 L339,168 L334,172 L328,176 L333,187 L319,191 L317,179 L310,180 L303,179 L301,191 L287,187 L292,176 L287,172 L281,168 L273,176 L264,164 L275,159 L272,152 L270,146 L259,147 L259,133 L270,134 L272,128 L275,121 L264,116 L273,104 L281,112 L287,108 L292,104 L287,93 L301,89 L303,101 Z" fill="#0000EA"/>
+<circle cx="310" cy="140" r="36" fill="white"/><text x="310" y="141" text-anchor="middle" dominant-baseline="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="26" fill="#0000EA">D</text>
+<text x="310" y="75" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="#0000EA">Discernement</text>
+<path d="M420,195 L427,196 L429,184 L443,188 L438,199 L444,203 L449,207 L457,199 L466,211 L455,216 L458,223 L460,229 L472,228 L472,242 L460,241 L458,247 L455,254 L466,259 L457,271 L449,263 L444,267 L438,271 L443,282 L429,286 L427,274 L420,275 L413,274 L411,286 L397,282 L402,271 L397,267 L391,263 L383,271 L374,259 L385,254 L382,247 L380,241 L369,242 L369,228 L380,229 L382,223 L385,216 L374,211 L383,199 L391,207 L397,203 L402,199 L397,188 L411,184 L413,196 Z" fill="#0000EA"/>
+<circle cx="420" cy="235" r="36" fill="white"/><text x="420" y="236" text-anchor="middle" dominant-baseline="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="26" fill="#0000EA">G</text>
+<text x="420" y="307" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="#0000EA">Galvanisation</text>
+<path d="M530,100 L537,101 L539,89 L553,93 L548,104 L554,108 L559,112 L567,104 L576,116 L565,121 L568,128 L570,134 L582,133 L582,147 L570,146 L568,152 L565,159 L576,164 L567,176 L559,168 L554,172 L548,176 L553,187 L539,191 L537,179 L530,180 L523,179 L521,191 L507,187 L512,176 L507,172 L501,168 L493,176 L484,164 L495,159 L492,152 L490,146 L479,147 L479,133 L490,134 L492,128 L495,121 L484,116 L493,104 L501,112 L507,108 L512,104 L507,93 L521,89 L523,101 Z" fill="#5BB6F4"/>
+<circle cx="530" cy="140" r="36" fill="white"/><text x="530" y="141" text-anchor="middle" dominant-baseline="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="26" fill="#5BB6F4">F</text>
+<text x="530" y="75" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="#5BB6F4">Facilitation</text>
+<path d="M640,195 L647,196 L649,184 L663,188 L658,199 L664,203 L669,207 L677,199 L686,211 L675,216 L678,223 L680,229 L692,228 L692,242 L680,241 L678,247 L675,254 L686,259 L677,271 L669,263 L664,267 L658,271 L663,282 L649,286 L647,274 L640,275 L633,274 L631,286 L617,282 L622,271 L617,267 L611,263 L603,271 L594,259 L605,254 L602,247 L600,241 L589,242 L589,228 L600,229 L602,223 L605,216 L594,211 L603,199 L611,207 L617,203 L622,199 L617,188 L631,184 L633,196 Z" fill="#5BB6F4"/>
+<circle cx="640" cy="235" r="36" fill="white"/><text x="640" y="236" text-anchor="middle" dominant-baseline="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="26" fill="#5BB6F4">P</text>
+<text x="640" y="307" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="13" fill="#5BB6F4">Persévérance</text>
+<line x1="90" y1="333" x2="200" y2="333" stroke="#FF3285" stroke-width="2.5"/><line x1="90" y1="333" x2="90" y2="326" stroke="#FF3285" stroke-width="2.5"/><line x1="200" y1="333" x2="200" y2="326" stroke="#FF3285" stroke-width="2.5"/>
+<text x="145" y="353" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.5" fill="#FF3285">IDÉATION</text>
+<line x1="310" y1="333" x2="420" y2="333" stroke="#0000EA" stroke-width="2.5"/><line x1="310" y1="333" x2="310" y2="326" stroke="#0000EA" stroke-width="2.5"/><line x1="420" y1="333" x2="420" y2="326" stroke="#0000EA" stroke-width="2.5"/>
+<text x="365" y="353" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.5" fill="#0000EA">ACTIVATION</text>
+<line x1="525" y1="333" x2="645" y2="333" stroke="#5BB6F4" stroke-width="2.5"/><line x1="525" y1="333" x2="525" y2="326" stroke="#5BB6F4" stroke-width="2.5"/><line x1="645" y1="333" x2="645" y2="326" stroke="#5BB6F4" stroke-width="2.5"/>
+<text x="585" y="353" text-anchor="middle" font-family="Quicksand,sans-serif" font-weight="700" font-size="12.5" letter-spacing="1.5" fill="#5BB6F4">MISE EN ŒUVRE</text>
+${ov}</svg>`;
+}
+
+// ── Show results ──────────────────────────────────────────────────────────────
+function showResults(){
+  const get=id=>document.getElementById(id).value.trim();
+  const prenom=get('p-prenom'),nom=get('p-nom'),email=get('p-email'),tel=get('p-tel');
+  const poste=get('p-poste'),ecole=get('p-ecole'),niveau=document.getElementById('p-niveau').value;
+  const annee=document.getElementById('p-annee').value;
+  const filiere=get('p-filiere'),dispo=get('p-dispo'),linkedin=get('p-linkedin');
+  const extraForms=[];
+  for(let n=1;n<=2;n++){const ee=document.getElementById('p-ecole-'+n);if(ee){const ev=ee.value.trim();if(ev)extraForms.push({ecole:ev,niveau:document.getElementById('p-niveau-'+n).value,annee:document.getElementById('p-annee-'+n).value,filiere:get('p-filiere-'+n)});}}
+  const exp=get('p-exp'),skills=get('p-skills');
+  const fullName=`${prenom} ${nom}`;
+  document.getElementById('print-name-val').textContent=fullName;
+
+  let sh=`<h2>${fullName}</h2><div class="candi-meta">${email}${tel?' · '+tel:''}</div>
+    <div class="candi-row">
+      <span class="candi-tag">🎯 ${poste}</span>
+      <span class="candi-tag">🎓 ${ecole}${niveau?' — '+niveau:''}${annee?' ('+annee+')':''}</span>
+      ${filiere?`<span class="candi-tag">📚 ${filiere}</span>`:''}
+      ${extraForms.map(f=>`<span class="candi-tag">🎓 ${f.ecole}${f.niveau?' — '+f.niveau:''}${f.annee?' ('+f.annee+')':''}${f.filiere?' · '+f.filiere:''}</span>`).join('')}
+      ${dispo?`<span class="candi-tag">📅 ${dispo}</span>`:''}
+      ${linkedin?`<span class="candi-tag">🔗 ${linkedin}</span>`:''}
+    </div>`;
+  if(exp) sh+=`<div style="margin-top:12px;"><div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Expériences</div><div style="font-size:0.84rem;color:var(--navy);line-height:1.6;white-space:pre-wrap;">${exp}</div></div>`;
+  if(skills) sh+=`<div style="margin-top:10px;"><div style="font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Compétences techniques</div><div style="font-size:0.84rem;color:var(--navy);line-height:1.6;white-space:pre-wrap;">${skills}</div></div>`;
+  document.getElementById('candi-summary-block').innerHTML=sh;
+
+  const RQQ=["Qu'est-ce qui t'a attiré chez Hello Pomelo ?","Ton projet tech dont tu es le plus fier(e) ?","Face à un problème complexe, comment t'y prends-tu ?","Ta façon de travailler en équipe ?","Où te vois-tu dans 3 ans ?","Quelle idée apporterais-tu à Hello Pomelo ?"];
+  let rh='';
+  for(let i=1;i<=6;i++){
+    const v=document.getElementById('q'+i).value.trim();
+    rh+=`<div class="rq-block"><div class="rq-q">${i}. ${RQQ[i-1]}</div><div class="rq-a">${v||'<em style="color:var(--muted)">Non renseigné</em>'}</div></div>`;
+  }
+  document.getElementById('rq-answers-block').innerHTML=rh;
+
+  const sm={};TYPES.forEach(t=>sm[t]=0);QUESTIONS2.forEach((q,i)=>sm[q.type]+=answers2[i]);
+  const sc=TYPES.map(t=>({type:t,total:sm[t]}));
+  const sorted=[...sc].sort((a,b)=>b.total-a.total);
+  const g2=sorted.slice(0,2),c2=sorted.slice(2,4),f2=sorted.slice(4,6);
+
+  document.getElementById('results-gear-chart2').innerHTML=buildGearSVG(g2.map(x=>x.type));
+
+  function mkRows(items,bg){return items.map(s=>`<tr style="background:${bg};"><td style="color:${COLORS[s.type]};font-weight:700;padding:10px 12px;"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${COLORS[s.type]};margin-right:7px;vertical-align:middle;"></span>${s.type}</td><td style="padding:10px 12px;font-weight:700;font-size:1rem;">${s.total}<span style="font-size:0.7rem;color:var(--muted);font-weight:400;">/20</span></td><td style="padding:10px 12px;width:120px;"><div class="mini-bar-wrap"><div class="mini-bar" style="width:${(s.total/20)*100}%;background:${COLORS[s.type]}"></div></div></td></tr>`).join('');}
+  document.getElementById('results-table2').innerHTML=`<colgroup><col style="width:38%"><col style="width:14%"><col style="width:48%"></colgroup>
+    <tr style="background:#FF3285;"><td colspan="3" style="padding:8px 12px;"><span style="color:white;font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.09em;">🏆 Talents Naturels</span><span style="color:rgba(255,255,255,0.75);font-size:0.72rem;margin-left:8px;">Joie &amp; énergie</span></td></tr>${mkRows(g2,'#FFF5F9')}
+    <tr style="background:#0000EA;"><td colspan="3" style="padding:8px 12px;"><span style="color:white;font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.09em;">💪 Compétences</span><span style="color:rgba(255,255,255,0.75);font-size:0.72rem;margin-left:8px;">Performant mais peu d'énergie</span></td></tr>${mkRows(c2,'#F2F2FF')}
+    <tr style="background:#8F8FBC;"><td colspan="3" style="padding:8px 12px;"><span style="color:white;font-weight:700;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.09em;">😓 Frustrations</span><span style="color:rgba(255,255,255,0.75);font-size:0.72rem;margin-left:8px;">À éviter autant que possible</span></td></tr>${mkRows(f2,'#F6F6FA')}`;
+
+  function ri(id,items,desc){const dm=desc||DESCRIPTIONS;document.getElementById(id).innerHTML=items.map(s=>`<div class="insight-block" style="border-color:${COLORS[s.type]}"><h3 style="color:${COLORS[s.type]}">${s.type} <span style="font-size:0.75rem;opacity:0.6;font-weight:500">${s.total}/20</span></h3><p>${dm[s.type]}</p></div>`).join('');}
+  ri('genius-blocks2',g2);ri('competency-blocks2',c2,COMPETENCE_DESCRIPTIONS);ri('frustration-blocks2',f2,FRUSTRATION_DESCRIPTIONS);
+
+  const gt=g2.map(x=>x.type);
+  document.getElementById('roles-block2').innerHTML=`<div class="roles-wrap">${[...new Set(gt.flatMap(t=>ROLE_SUGGESTIONS[t]))].map(r=>`<span class="role-chip">${r}</span>`).join('')}</div>`;
+
+  let dp=[];
+  TYPES.forEach(t=>{
+    const col=COLORS[t],tq=QUESTIONS2.filter(q=>q.type===t),ti=QUESTIONS2.reduce((a,q,i)=>{if(q.type===t)a.push(i);return a;},[]),tot=ti.reduce((s,i)=>s+answers2[i],0);
+    dp.push(`<div class="answers-group"><div class="answers-group-title" style="background:${col}">${t}<span>${tot}/20</span></div>${tq.map((q,li)=>{const gi=ti[li],sc=answers2[gi],em=sc>0?ENERGY_LABELS[sc-1].split(' ')[0]:'—';return`<div class="answers-q-row" style="border-left-color:${col}"><span class="answers-q-num">${gi+1}</span><span class="answers-q-text">${q.text}</span><span class="answers-q-score" style="color:${col}">${em} ${sc||'—'}</span></div>`;}).join('')}</div>`);
+  });
+  document.getElementById('answers-detail2').innerHTML=dp.join('');
+  document.getElementById('print-date-val').textContent=new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  goTo('page-results');
+}
+
+// ── Formations dynamiques ──────────────────────────────────────────────────────
+function makeYearOptions(selId){
+  const sel=document.getElementById(selId); if(!sel)return;
+  sel.innerHTML='<option value="">Sélectionne…</option>';
+  for(let y=2030;y>=2000;y--) sel.innerHTML+=`<option>${y}</option>`;
+}
+function makeDiplomaOptions(selId){
+  const opts=['','Bac','Bac+2 (BTS / DUT)','Bac+3 (Licence / Bachelor)','Bac+4 (Master 1)','Bac+5 (Master 2 / Ingénieur)','Bac+6 et plus'];
+  const sel=document.getElementById(selId); if(!sel)return;
+  sel.innerHTML=opts.map((o,i)=>`<option value="${o}">${i===0?'Sélectionne…':o}</option>`).join('');
+}
+let extraFormations=0;
+function addFormation(){
+  if(extraFormations>=2)return;
+  extraFormations++;
+  const n=extraFormations;
+  const div=document.createElement('div');
+  div.className='formation-extra'; div.id='formation-extra-'+n;
+  div.innerHTML=`<div class="formation-extra-header"><span>Formation complémentaire ${n}</span><button class="btn-remove-formation" onclick="removeFormation(${n})">✕ Retirer</button></div>
+    <div class="form-grid">
+      <div class="form-field"><label>École / Université</label><input type="text" id="p-ecole-${n}" placeholder="Nom de l'établissement"/></div>
+      <div class="form-field"><label>Diplôme obtenu</label><select id="p-niveau-${n}"></select></div>
+      <div class="form-field"><label>Année de fin</label><select id="p-annee-${n}"></select></div>
+      <div class="form-field full"><label>Spécialité / Filière</label><input type="text" id="p-filiere-${n}" placeholder="ex. Marketing, Finance, Design…"/></div>
+    </div>`;
+  document.getElementById('formations-list').appendChild(div);
+  makeYearOptions('p-annee-'+n); makeDiplomaOptions('p-niveau-'+n);
+  if(extraFormations>=2) document.getElementById('add-formation-btn').style.display='none';
+}
+function removeFormation(n){
+  const el=document.getElementById('formation-extra-'+n); if(el) el.remove();
+  extraFormations--;
+  document.getElementById('add-formation-btn').style.display='';
+}
+makeYearOptions('p-annee');
+
+function toggleDetail2(){const el=document.getElementById('answers-detail2'),btn=document.getElementById('toggle-detail-btn2'),v=el.style.display==='none';el.style.display=v?'block':'none';btn.textContent=v?'▲ Masquer le détail':'▼ Afficher le détail des 24 réponses';}
+</script>
+</body>
+</html>
